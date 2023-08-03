@@ -1,2 +1,3 @@
 C:\Users\hansh\Downloads\Code (1)\Code\X\External\DirectXTK\Bin\Desktop_2019\x64\Debug\DirectXTK.lib
 C:\Users\hansh\Downloads\20230725223251_Code\Code\X\External\DirectXTK\Bin\Desktop_2019\x64\Debug\DirectXTK.lib
+C:\Users\lcv2212506.LCIEDUCATION.000\Documents\GitHub\AI\Code\X\External\DirectXTK\Bin\Desktop_2019\x64\Debug\DirectXTK.lib
