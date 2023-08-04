@@ -1,5 +1,6 @@
 #pragma once
 #include <AI.h>
+#include "ImGui/Inc/imgui.h"
 #include "XMath.h"
 
 enum PatrolStates
@@ -27,6 +28,7 @@ public:
 	void Initialize();
 	void Terminate();
 	void Update(float dt);
+	void Debug();
 	void ChangeState(PatrolStates newState);
 
 	bool isTimeToChangePos() const;

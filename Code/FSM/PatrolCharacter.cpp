@@ -22,6 +22,16 @@ void PatrolCharacter::Update(float dt)
 	mStateMachine->Update(dt);
 }
 
+void PatrolCharacter::Debug()
+{
+	mStateMachine->Debug();
+	ImGui::Text("Time Passed [%f], Time To Spawn Enemy [%f]", timePasssed, timeToSpawnEnemy);
+	if (enemy != nullptr)
+	{
+		ImGui::Text("EnemyHealth [%d], Enemy Pos X[%f] Y[%f]", enemy->health, enemy->pos.first, enemy->pos.second);
+	}
+}
+
 void PatrolCharacter::ChangeState(PatrolStates newState)
 {
 	mStateMachine->ChangeState((int)newState);
@@ -71,6 +81,8 @@ bool PatrolCharacter::isEnemyDead()
 		enemy = nullptr;
 		return true;
 	}
+
+	return false;
 }
 
 void PatrolCharacter::IncreaseTimePassed(float time)
@@ -90,7 +102,7 @@ void PatrolCharacter::IncreaseTimeToSpawnEnemy(float time)
 	if (timeToSpawnEnemy >= 4)
 	{
 		enemy = new Enemy();
-		time = 0;
+		timeToSpawnEnemy = 0;
 	}
 }
 
@@ -128,5 +140,5 @@ PatrolCharacter::Enemy::Enemy()
 {
 	health = 5;
 	strength = 3;
-	pos = { 5.0f, 5.0f };
+	pos = { X::Random(0, 20), X::Random(0, 20) };
 }

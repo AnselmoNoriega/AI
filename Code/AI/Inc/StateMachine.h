@@ -28,6 +28,14 @@ namespace AI
 			}
 		}
 
+		void Debug()
+		{
+			if (mCurrentState != nullptr)
+			{
+				mCurrentState->Debug();
+			}
+		}
+
 		void ChangeState(int index)
 		{
 			if (mCurrentState != nullptr)

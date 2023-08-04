@@ -17,6 +17,10 @@ bool GameLoop(float deltaTime)
 		character.Update(deltaTime);
 	}
 
+	ImGui::Begin("Patrol State");
+	character.Debug();
+	ImGui::End();
+
 	const bool quit = X::IsKeyPressed(X::Keys::ESCAPE);
 	return quit;
 }

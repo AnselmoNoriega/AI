@@ -36,6 +36,11 @@ public:
 	{
 
 	}
+
+	void Debug() override
+	{
+		ImGui::Text("Idle");
+	}
 };
 
 class Searching : public AI::State<PatrolCharacter>
@@ -49,7 +54,6 @@ public:
 	void Update(PatrolCharacter& agent, float dt) override
 	{
 		agent.IncreaseTimePassed(1);
-		agent.IncreaseTimeToSpawnEnemy(1);
 
 		if (agent.isEnemyAround())
 		{
@@ -71,6 +75,11 @@ public:
 	void Exit(PatrolCharacter& agent) override
 	{
 
+	}
+
+	void Debug() override
+	{
+		ImGui::Text("Searching");
 	}
 };
 
@@ -96,6 +105,11 @@ public:
 	{
 
 	}
+
+	void Debug() override
+	{
+		ImGui::Text("Chasing");
+	}
 };
 
 class Attacking : public AI::State<PatrolCharacter>
@@ -119,6 +133,11 @@ public:
 	void Exit(PatrolCharacter& agent) override
 	{
 
+	}
+
+	void Debug() override
+	{
+		ImGui::Text("Attacking");
 	}
 };
 
@@ -145,5 +164,10 @@ public:
 	void Exit(PatrolCharacter& agent) override
 	{
 
+	}
+
+	void Debug() override
+	{
+		ImGui::Text("Calling For Help");
 	}
 };
