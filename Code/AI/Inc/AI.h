@@ -11,6 +11,10 @@
 #include "State.h"
 #include "StateMachine.h"
 
+//Steering
+#include "SteeringBehavior.h"
+#include "SteeringModule.h"
+
 //AI World
 #include "AIWorld.h"
 #include "Agent.h"
