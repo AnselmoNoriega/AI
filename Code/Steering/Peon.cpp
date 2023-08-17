@@ -11,7 +11,7 @@ void Peon::Load()
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
 		char name[128];
-		sprintf_s(name, "scv_$2i.png", i + 1);
+		sprintf_s(name, "scv_%02i.png", i + 1);
 		mTextureIDs[i] = X::LoadTexture(name);
 	}
 }

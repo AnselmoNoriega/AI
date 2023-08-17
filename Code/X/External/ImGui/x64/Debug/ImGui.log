@@ -5,4 +5,4 @@
   imgui_impl_win32.cpp
   imgui_widgets.cpp
   Generating Code...
-  ImGui.vcxproj -> C:\GitHub\VGP114-GameProject\AI\Code\x64\Debug\ImGui.lib
+  ImGui.vcxproj -> C:\Github\AI\Code\x64\Debug\ImGui.lib
