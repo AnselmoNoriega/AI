@@ -16,6 +16,8 @@ namespace AI
 			return static_cast<NewBehaviorType*>(newBehavior.get());
 		}
 
+		X::Math::Vector2 Calculate();
+
 	private:
 		Agent& mAgent;
 		std::vector<std::unique_ptr<SteeringBehavior>> mBehaviors;
