@@ -15,6 +15,10 @@ void SpawnPeon()
 	auto& peon = peons.emplace_back(std::make_unique<Peon>(aiWorld));
 	peon->Load();
 	peon->ShowDebug(showDebug);
+
+	const float screenWidth = X::GetScreenWidth();
+	const float screenheight = X::GetScreenHeight();
+	peon->position = X::RandomVector2({ 100.0f, 100.0f }, { screenWidth - 100.0f, screenheight - 100.0f });
 }
 
 void KillPeon()

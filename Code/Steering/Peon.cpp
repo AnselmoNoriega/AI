@@ -18,19 +18,20 @@ void Peon::Load()
 
 void Peon::Unload()
 {
+
 }
 
 void Peon::Update(float dt)
 {
+
 }
 
 void Peon::Render()
 {
-	const int frame = 0;
-	X::Math::Vector2 pos;
-	pos.x = X::GetScreenWidth() * 0.5f;
-	pos.y = X::GetScreenHeight() * 0.5f;
-	X::DrawSprite(mTextureIDs[frame], pos);
+	const float angle = atan2(-heading.x, heading.y) + X::Math::kPi;
+	const float percent = angle / X::Math::kTwoPi;
+	const int frame = static_cast<int>(percent * mTextureIDs.size()) % mTextureIDs.size();
+	X::DrawSprite(mTextureIDs[frame], position);
 }
 
 void Peon::ShowDebug(bool debug)
