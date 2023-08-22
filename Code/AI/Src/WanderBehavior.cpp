@@ -8,8 +8,10 @@ X::Math::Vector2 WanderBehavior::Calculate(Agent& agent)
 {
 	auto newWanderTarget = mLocalWanderTarget + (X::RandomUnitCircle() * mWanderJitter);
 
-	newWanderTarget = X::Math::Normalize(newWanderTarget);
+	newWanderTarget = X::Math::Normalize(newWanderTarget) * mWanderRadius;
 	mLocalWanderTarget = newWanderTarget;
+
+	newWanderTarget += X::Math::Vector2(0.0f, mWanderDistance);
 
 	const auto worldTransform = agent.GetWorldTransform();
 	const auto worldWanderTarget = X::Math::TransformCoord(newWanderTarget, worldTransform);

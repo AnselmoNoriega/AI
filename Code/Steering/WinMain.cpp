@@ -9,6 +9,9 @@ AI::AIWorld aiWorld;
 std::vector<std::unique_ptr<Peon>> peons;
 
 bool showDebug = false;
+float wanderJitter = 5.0f;
+float wanderRadius = 20.0f;
+float wanderDistance = 50.0f;
 
 void SpawnPeon()
 {
@@ -47,6 +50,19 @@ bool GameLoop(float deltaTime)
 	if (ImGui::Button("Kill"))
 	{
 		KillPeon();
+	}
+	if (ImGui::Checkbox("ShowDebug", &showDebug))
+	{
+		for (auto& peon : peons)
+		{
+			peon->ShowDebug(showDebug);
+		}
+	}
+	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Jitter##", &wanderJitter, 0.1f, 0.1f, 10.0f);
+		ImGui::DragFloat("Radius##", &wanderRadius, 0.1f, 0.1f, 100.0f);
+		ImGui::DragFloat("Distance##", &wanderDistance, 0.1f, 0.1f, 500.0f);
 	}
 	ImGui::End();
 
