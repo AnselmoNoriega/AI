@@ -24,6 +24,14 @@ X::Math::Vector2 WanderBehavior::Calculate(Agent& agent)
 	const auto desiredVelocity = (agentDist / disToDest) * agent.maxSpeed;
 	const auto seekForce = desiredVelocity - agent.velocity;
 
+	if (IsDebug())
+	{
+		const auto wanderCenter = X::Math::TransformCoord({ 0.0f, mWanderDistance }, worldTransform);
+		X::DrawScreenCircle(wanderCenter, mWanderRadius, X::Colors::Yellow);
+		X::DrawScreenDiamond(worldWanderTarget, 3.0f, X::Colors::Red);
+		X::DrawScreenLine(agent.position, worldWanderTarget, X::Colors::Green);
+	}
+
 	return seekForce;
 }
 
