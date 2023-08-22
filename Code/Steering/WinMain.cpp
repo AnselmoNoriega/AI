@@ -23,9 +23,12 @@ void SpawnPeon()
 
 void KillPeon()
 {
-	auto& peon = peons.back();
-	peon->Unload();
-	peons.pop_back();
+	if (peons.size() > 0)
+	{
+		auto& peon = peons.back();
+		peon->Unload();
+		peons.pop_back();
+	}
 }
 
 void GameInit()
@@ -36,6 +39,17 @@ void GameInit()
 
 bool GameLoop(float deltaTime)
 {
+	ImGui::Begin("Steering Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	if (ImGui::Button("Spawn"))
+	{
+		SpawnPeon();
+	}
+	if (ImGui::Button("Kill"))
+	{
+		KillPeon();
+	}
+	ImGui::End();
+
 	aiWorld.Update();
 
 	for (auto& peon : peons)

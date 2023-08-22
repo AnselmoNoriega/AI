@@ -149,6 +149,7 @@
     <ClInclude Include="Inc\StateMachine.h" />
     <ClInclude Include="Inc\SteeringBehavior.h" />
     <ClInclude Include="Inc\SteeringModule.h" />
+    <ClInclude Include="Inc\WanderBehavior.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\SteeringModule.cpp" />
+    <ClCompile Include="Src\WanderBehavior.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

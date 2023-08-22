@@ -22,6 +22,8 @@ namespace AI
 		X::Math::Vector2 position = X::Math::Vector2::Zero();
 		X::Math::Vector2 heading = X::Math::Vector2::YAxis();
 
+		X::Math::Matrix3 GetWorldTransform() const;
+
 		uint32_t GetTypeID() const { return static_cast<uint32_t>(mUniqueID >> 32); }
 		uint64_t GetUniqueID() const { return mUniqueID; }
 

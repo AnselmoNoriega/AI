@@ -14,6 +14,7 @@
 //Steering
 #include "SteeringBehavior.h"
 #include "SteeringModule.h"
+#include "WanderBehavior.h"
 
 //AI World
 #include "AIWorld.h"
