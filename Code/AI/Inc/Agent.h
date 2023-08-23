@@ -12,6 +12,7 @@ namespace AI
 		Agent(AIWorld& world, uint32_t typeID);
 		~Agent() override = default;
 
+		const Agent* target = nullptr;
 		X::Math::Vector2 destination = X::Math::Vector2::Zero();
 		X::Math::Vector2 velocity = X::Math::Vector2::Zero();
 		float maxSpeed = 100.0f;

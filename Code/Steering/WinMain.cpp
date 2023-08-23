@@ -13,6 +13,8 @@ float wanderJitter = 5.0f;
 float wanderRadius = 20.0f;
 float wanderDistance = 50.0f;
 
+AI::ArriveBehavior::Deceleration deceleration = AI::ArriveBehavior::Deceleration::Normal;
+
 int activeBehavior = 0;
 
 void SpawnPeon()
@@ -64,7 +66,8 @@ bool GameLoop(float deltaTime)
 	static const char* behaviors[] = {
 		"Flee",
 		"Seek",
-		"Wander"
+		"Wander",
+		"Arrive"
 	};
 
 	if (ImGui::Combo("ActiveBehavior##", &activeBehavior, behaviors, std::size(behaviors)))
@@ -74,6 +77,7 @@ bool GameLoop(float deltaTime)
 			peon->SetFlee(activeBehavior == 0);
 			peon->SetSeek(activeBehavior == 1);
 			peon->SetWander(activeBehavior == 2);
+			peon->SetArrive(activeBehavior == 3);
 		}
 	}
 	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
@@ -81,6 +85,21 @@ bool GameLoop(float deltaTime)
 		ImGui::DragFloat("Jitter##", &wanderJitter, 0.1f, 0.1f, 10.0f);
 		ImGui::DragFloat("Radius##", &wanderRadius, 0.1f, 0.1f, 100.0f);
 		ImGui::DragFloat("Distance##", &wanderDistance, 0.1f, 0.1f, 500.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Arrive##Settings", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		static const char* decelerationSpeeds[] = {
+		"Fast",
+		"Normal",
+		"Slow"
+		};
+
+		int decel = static_cast<int>(deceleration);
+		if (ImGui::Combo("Deceleration##", &decel, decelerationSpeeds, std::size(decelerationSpeeds)))
+		{
+			deceleration = static_cast<AI::ArriveBehavior::Deceleration>(decel);
+		}
 	}
 	ImGui::End();
 

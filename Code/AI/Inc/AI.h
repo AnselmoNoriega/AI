@@ -14,6 +14,8 @@
 //Steering
 #include "SteeringBehavior.h"
 #include "SteeringModule.h"
+
+#include "ArriveBehavior.h"
 #include "SeekBehavior.h"
 #include "WanderBehavior.h"
 
