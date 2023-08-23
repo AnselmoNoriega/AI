@@ -15,6 +15,10 @@ public:
 
 	void ShowDebug(bool debug);
 
+	void SetFlee(bool active) { mFleeBehaivior->SetActive(active); }
+	void SetSeek(bool active) { mSeekBehaivior->SetActive(active); }
+	void SetWander(bool active) { mWanderBehavior->SetActive(active); }
+
 private:
 	std::unique_ptr<AI::SteeringModule> mSteeringModule;
 	AI::FleeBehavior* mFleeBehaivior = nullptr;

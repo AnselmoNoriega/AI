@@ -13,6 +13,8 @@ float wanderJitter = 5.0f;
 float wanderRadius = 20.0f;
 float wanderDistance = 50.0f;
 
+int activeBehavior = 0;
+
 void SpawnPeon()
 {
 	auto& peon = peons.emplace_back(std::make_unique<Peon>(aiWorld));
@@ -56,6 +58,22 @@ bool GameLoop(float deltaTime)
 		for (auto& peon : peons)
 		{
 			peon->ShowDebug(showDebug);
+		}
+	}
+
+	static const char* behaviors[] = {
+		"Flee",
+		"Seek",
+		"Wander"
+	};
+
+	if (ImGui::Combo("ActiveBehavior##", &activeBehavior, behaviors, std::size(behaviors)))
+	{
+		for (auto& peon : peons)
+		{
+			peon->SetFlee(activeBehavior == 0);
+			peon->SetSeek(activeBehavior == 1);
+			peon->SetWander(activeBehavior == 2);
 		}
 	}
 	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
