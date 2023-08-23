@@ -7,6 +7,7 @@
 
 AI::AIWorld aiWorld;
 std::vector<std::unique_ptr<Peon>> peons;
+Peon targetPeon(aiWorld);
 
 bool showDebug = false;
 float wanderJitter = 5.0f;
@@ -22,6 +23,7 @@ void SpawnPeon()
 	auto& peon = peons.emplace_back(std::make_unique<Peon>(aiWorld));
 	peon->Load();
 	peon->ShowDebug(showDebug);
+	peon->target = &targetPeon;
 
 	const float screenWidth = X::GetScreenWidth();
 	const float screenheight = X::GetScreenHeight();
@@ -41,6 +43,12 @@ void KillPeon()
 void GameInit()
 {
 	aiWorld.Initialize();
+	
+	targetPeon.Load();
+	targetPeon.SetWander(true);
+	targetPeon.SetFlee(false);
+	targetPeon.SetSeek(false);
+
 	SpawnPeon();
 }
 
@@ -67,7 +75,9 @@ bool GameLoop(float deltaTime)
 		"Flee",
 		"Seek",
 		"Wander",
-		"Arrive"
+		"Arrive",
+		"Pursuit",
+		"Evade"
 	};
 
 	if (ImGui::Combo("ActiveBehavior##", &activeBehavior, behaviors, std::size(behaviors)))
@@ -78,6 +88,8 @@ bool GameLoop(float deltaTime)
 			peon->SetSeek(activeBehavior == 1);
 			peon->SetWander(activeBehavior == 2);
 			peon->SetArrive(activeBehavior == 3);
+			peon->SetPursuit(activeBehavior == 4);
+			peon->SetEvade(activeBehavior == 5);
 		}
 	}
 	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
@@ -118,11 +130,13 @@ bool GameLoop(float deltaTime)
 	}
 
 	aiWorld.Update();
+	targetPeon.Update(deltaTime);
 
 	for (auto& peon : peons)
 	{
 		peon->Update(deltaTime);
 	}
+	targetPeon.Render();
 	for (auto& peon : peons)
 	{
 		peon->Render();
@@ -133,6 +147,8 @@ bool GameLoop(float deltaTime)
 
 void GameCleanup()
 {
+
+	targetPeon.Unload();
 	for (auto& peon : peons)
 	{
 		peon->Unload();

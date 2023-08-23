@@ -14,6 +14,8 @@ void Peon::Load()
 {
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
 	mArriveBehavior = mSteeringModule->AddBehavior<AI::ArriveBehavior>();
+	mEvadeBehavior = mSteeringModule->AddBehavior<AI::EvadeBehavior>();
+	mPursuitBehavior = mSteeringModule->AddBehavior<AI::PursuitBehavior>();
 	mFleeBehaivior = mSteeringModule->AddBehavior<AI::FleeBehavior>();
 	mSeekBehaivior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
@@ -82,6 +84,8 @@ void Peon::Render()
 void Peon::ShowDebug(bool debug)
 {
 	mArriveBehavior->ShowDebug(debug);
+	mEvadeBehavior->ShowDebug(debug);
+	mPursuitBehavior->ShowDebug(debug);
 	mFleeBehaivior->ShowDebug(debug);
 	mSeekBehaivior->ShowDebug(debug);
 	mWanderBehavior->ShowDebug(debug);

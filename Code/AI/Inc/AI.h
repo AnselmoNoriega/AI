@@ -16,6 +16,7 @@
 #include "SteeringModule.h"
 
 #include "ArriveBehavior.h"
+#include "PursuitBehavior.h"
 #include "SeekBehavior.h"
 #include "WanderBehavior.h"
 
