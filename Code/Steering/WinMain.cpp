@@ -66,6 +66,20 @@ bool GameLoop(float deltaTime)
 	}
 	ImGui::End();
 
+	if (X::IsMousePressed(X::Mouse::LBUTTON))
+	{
+		const auto mouseX = static_cast<float>(X::GetMouseScreenX());
+		const auto mouseY = static_cast<float>(X::GetMouseScreenY());
+		const auto destination = X::Math::Vector2(mouseX, mouseY);
+
+		for (auto& peon : peons)
+		{
+			peon->destination = destination;
+		}
+
+
+	}
+
 	aiWorld.Update();
 
 	for (auto& peon : peons)

@@ -75,6 +75,9 @@
     <ClInclude Include="Inc\WanderBehavior.h">
       <Filter>Inc\Steering</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\SeekBehavior.h">
+      <Filter>Inc\Steering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -108,6 +111,9 @@
       <Filter>Src\Steering</Filter>
     </ClCompile>
     <ClCompile Include="Src\WanderBehavior.cpp">
+      <Filter>Src\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SeekBehavior.cpp">
       <Filter>Src\Steering</Filter>
     </ClCompile>
   </ItemGroup>
