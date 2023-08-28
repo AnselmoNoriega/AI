@@ -27,6 +27,9 @@ void Peon::Load()
 		sprintf_s(name, "scv_%02i.png", i + 1);
 		mTextureIDs[i] = X::LoadTexture(name);
 	}
+
+	float spriteWidth = X::GetSpriteWidth(mTextureIDs[0]);
+	radius = spriteWidth;
 }
 
 void Peon::Unload()
@@ -79,6 +82,8 @@ void Peon::Render()
 	const float percent = angle / X::Math::kTwoPi;
 	const int frame = static_cast<int>(percent * mTextureIDs.size()) % mTextureIDs.size();
 	X::DrawSprite(mTextureIDs[frame], position);
+
+	X::DrawScreenCircle(position, radius, X::Colors::SpringGreen);
 }
 
 void Peon::ShowDebug(bool debug)

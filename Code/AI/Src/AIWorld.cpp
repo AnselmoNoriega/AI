@@ -28,3 +28,24 @@ void AIWorld::Unregister(Entity* entity)
 		mEntities.erase(iter);
 	}
 }
+
+EntityPtrs AIWorld::GetEntitiesInRange(const X::Math::Circle& range, uint32_t typeID)
+{
+	float radiusSq = range.radius * range.radius;
+	EntityPtrs entities;
+
+	for (auto& entity : mEntities)
+	{
+		if (typeID == 0 || entity->GetTypeID() == typeID)
+		{
+			auto distVect = entity->position - range.center;
+
+			if (X::Math::MagnitudeSqr(distVect) <= radiusSq)
+			{
+				entities.push_back(entity);
+			}
+		}
+	}
+
+	return entities;
+}

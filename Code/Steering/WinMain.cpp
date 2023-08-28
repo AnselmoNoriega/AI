@@ -2,7 +2,7 @@
 #include <ImGui/Inc/imgui.h>
 #include <AI.h>
 #include "Peon.h"
-
+#include "TypeIDs.h"
 //--------------------------------------------------
 
 AI::AIWorld aiWorld;
@@ -125,11 +125,24 @@ bool GameLoop(float deltaTime)
 		{
 			peon->destination = destination;
 		}
-
-
 	}
 
 	aiWorld.Update();
+
+	for (auto& peon : peons)
+	{
+		auto neighbors = aiWorld.GetEntitiesInRange({ peon->position, 100.0f }, Types::PeonID);
+		peon->neighbors.clear();
+
+		for (auto& n : neighbors)
+		{
+			if (n != peon.get())
+			{
+				peon->neighbors.push_back(static_cast<AI::Agent*>(n));
+			}
+		}
+	}
+
 	targetPeon.Update(deltaTime);
 
 	for (auto& peon : peons)
