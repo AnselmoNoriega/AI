@@ -46,7 +46,6 @@ X::Math::Vector2 AI::AlignmentBehavior::Calculate(Agent& agent)
 				averageHeading += n->heading;
 				++totalAgents;
 			}
-
 		}
 	}
 	if (totalAgents > 0)
@@ -57,8 +56,37 @@ X::Math::Vector2 AI::AlignmentBehavior::Calculate(Agent& agent)
 
 	if (IsDebug())
 	{
-		X::DrawScreenLine(agent.position, agent.position + averageHeading, X::Colors::BlueViolet);
+		X::DrawScreenLine(agent.position, agent.position + alignmentForce, X::Colors::BlueViolet);
 	}
 
 	return alignmentForce;
+}
+
+X::Math::Vector2 AI::CohesionBehavior::Calculate(Agent& agent)
+{
+	X::Math::Vector2 cohesionForce;
+	X::Math::Vector2 centerOfMass;
+	int totalAgents = 0;
+	for (auto& n : agent.neighbors)
+	{
+		if (n != agent.target)
+		{
+			centerOfMass += n->heading;
+			++totalAgents;
+
+		}
+	}
+	if (totalAgents > 0)
+	{
+		centerOfMass /= static_cast<float>(totalAgents);
+		const auto desiredVelocity = X::Math::Normalize(centerOfMass) * agent.maxSpeed;
+		cohesionForce = desiredVelocity - agent.velocity;
+	}
+
+	if (IsDebug())
+	{
+		X::DrawScreenLine(agent.position, agent.position + cohesionForce, X::Colors::HotPink);
+	}
+
+	return cohesionForce;
 }

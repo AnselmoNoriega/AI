@@ -9,7 +9,7 @@ AI::AIWorld aiWorld;
 std::vector<std::unique_ptr<Peon>> peons;
 Peon targetPeon(aiWorld);
 
-bool showDebug = false;
+bool showDebug = true;
 float wanderJitter = 5.0f;
 float wanderRadius = 20.0f;
 float wanderDistance = 50.0f;

@@ -32,5 +32,6 @@ private:
 	AI::WanderBehavior* mWanderBehavior = nullptr;
 	AI::SeparationBehavior* mSeparationBehavior = nullptr;
 	AI::AlignmentBehavior* mAlignmentBehavior = nullptr;
+	AI::CohesionBehavior* mCohesionBehavior = nullptr;
 	std::array<X::TextureId, 16> mTextureIDs;
 };
