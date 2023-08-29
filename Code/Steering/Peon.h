@@ -30,5 +30,6 @@ private:
 	AI::FleeBehavior* mFleeBehaivior = nullptr;
 	AI::SeekBehavior* mSeekBehaivior = nullptr;
 	AI::WanderBehavior* mWanderBehavior = nullptr;
+	AI::SeparationBehavior* mSeparationBehavior = nullptr;
 	std::array<X::TextureId, 16> mTextureIDs;
 };

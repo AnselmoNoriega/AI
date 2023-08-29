@@ -15,10 +15,14 @@
 #include "SteeringBehavior.h"
 #include "SteeringModule.h"
 
+//Individual
 #include "ArriveBehavior.h"
 #include "PursuitBehavior.h"
 #include "SeekBehavior.h"
 #include "WanderBehavior.h"
+
+//Group
+#include "GroupBehavior.h"
 
 //AI World
 #include "AIWorld.h"

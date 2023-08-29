@@ -19,7 +19,9 @@ void Peon::Load()
 	mFleeBehaivior = mSteeringModule->AddBehavior<AI::FleeBehavior>();
 	mSeekBehaivior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
+	mSeparationBehavior = mSteeringModule->AddBehavior<AI::SeparationBehavior>();
 	mFleeBehaivior->SetActive(true);
+	mSeparationBehavior->SetActive(true);
 
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
@@ -82,8 +84,6 @@ void Peon::Render()
 	const float percent = angle / X::Math::kTwoPi;
 	const int frame = static_cast<int>(percent * mTextureIDs.size()) % mTextureIDs.size();
 	X::DrawSprite(mTextureIDs[frame], position);
-
-	X::DrawScreenCircle(position, radius, X::Colors::SpringGreen);
 }
 
 void Peon::ShowDebug(bool debug)
@@ -94,4 +94,5 @@ void Peon::ShowDebug(bool debug)
 	mFleeBehaivior->ShowDebug(debug);
 	mSeekBehaivior->ShowDebug(debug);
 	mWanderBehavior->ShowDebug(debug);
+	mSeparationBehavior->ShowDebug(debug);
 }

@@ -146,6 +146,7 @@
     <ClInclude Include="Inc\Dijkstra.h" />
     <ClInclude Include="Inc\Entity.h" />
     <ClInclude Include="Inc\GridBasedGraph.h" />
+    <ClInclude Include="Inc\GroupBehavior.h" />
     <ClInclude Include="Inc\PursuitBehavior.h" />
     <ClInclude Include="Inc\SeekBehavior.h" />
     <ClInclude Include="Inc\State.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Src\Dijkstra.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
     <ClCompile Include="Src\GridBasedGraph.cpp" />
+    <ClCompile Include="Src\GroupBehavior.cpp" />
     <ClCompile Include="Src\Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
