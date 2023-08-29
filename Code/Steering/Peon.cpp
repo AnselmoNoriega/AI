@@ -20,8 +20,10 @@ void Peon::Load()
 	mSeekBehaivior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
 	mSeparationBehavior = mSteeringModule->AddBehavior<AI::SeparationBehavior>();
+	mAlignmentBehavior = mSteeringModule->AddBehavior<AI::AlignmentBehavior>();
 	mFleeBehaivior->SetActive(true);
 	mSeparationBehavior->SetActive(true);
+	mAlignmentBehavior->SetActive(true);
 
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
@@ -95,4 +97,5 @@ void Peon::ShowDebug(bool debug)
 	mSeekBehaivior->ShowDebug(debug);
 	mWanderBehavior->ShowDebug(debug);
 	mSeparationBehavior->ShowDebug(debug);
+	mAlignmentBehavior->ShowDebug(debug);
 }
