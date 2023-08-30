@@ -4,6 +4,7 @@
 
 X::Math::Vector2 AI::SeparationBehavior::Calculate(Agent& agent)
 {
+	const float forceMultiplier = 5.0f;
 	X::Math::Vector2 separationForce;
 	for (auto& n : agent.neighbors)
 	{
@@ -18,7 +19,8 @@ X::Math::Vector2 AI::SeparationBehavior::Calculate(Agent& agent)
 				dirToNeighbor /= distance;
 				if (X::Math::Dot(dirToNeighbor, agent.heading) > 0.0f)
 				{
-					separationForce += (-dirToNeighbor * ((overlapDistance / agent.radius) * agent.maxSpeed));
+					float desiredSpeed = X::Math::Min((overlapDistance / agent.radius) * agent.maxSpeed * forceMultiplier, agent.maxSpeed);
+					separationForce += (-dirToNeighbor * desiredSpeed);
 				}
 			}
 		}

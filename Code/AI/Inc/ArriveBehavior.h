@@ -14,5 +14,11 @@ namespace AI
 		};
 
 		X::Math::Vector2 Calculate(Agent& agent) override;
+
+		void SetDeceleration(Deceleration decel) { mDeceleration = decel; }
+
+	private:
+		Deceleration mDeceleration = Deceleration::Normal;
+
 	};
 }

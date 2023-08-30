@@ -24,6 +24,11 @@
 //Group
 #include "GroupBehavior.h"
 
+//Perception
+#include "MemoryRecord.h"
+#include "Sensor.h"
+#include "PerceptionModule.h"
+
 //AI World
 #include "AIWorld.h"
 #include "Agent.h"
