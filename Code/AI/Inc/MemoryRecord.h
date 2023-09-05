@@ -21,7 +21,7 @@ namespace AI
 				return defaultValue;
 			}
 
-			const auto& value iter->second;
+			const auto& value = iter->second;
 			return std::get<T>(value);
 		}
 	};

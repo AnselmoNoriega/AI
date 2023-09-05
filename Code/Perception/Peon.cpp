@@ -1,9 +1,14 @@
 #include "Peon.h"
 #include "TypeIDs.h"
 
+#include"VisualSensor.h"
+
 extern float wanderJitter;
 extern float wanderRadius;
 extern float wanderDistance;
+
+extern float viewRange;
+extern float viewAngle;
 
 namespace
 {
@@ -21,6 +26,8 @@ Peon::Peon(AI::AIWorld& world)
 void Peon::Load()
 {
 	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
+	mVisualSensor = mPerceptionModule->AddSensore<VisualSensor>();
+
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
 	mSeekBehaivior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
@@ -44,6 +51,9 @@ void Peon::Unload()
 
 void Peon::Update(float dt)
 {
+	mVisualSensor->viewRange = viewRange;
+	mVisualSensor->viewHalfAngle = viewAngle * X::Math::kDegToRad;
+
 	mPerceptionModule->Update(dt);
 
 	if (mWanderBehavior->IsActive())

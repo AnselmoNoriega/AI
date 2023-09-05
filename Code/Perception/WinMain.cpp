@@ -13,6 +13,9 @@ float wanderJitter = 5.0f;
 float wanderRadius = 20.0f;
 float wanderDistance = 50.0f;
 
+float viewRange = 300.0f;
+float viewAngle = 45.0f;
+
 int activeBehavior = 0;
 
 void SpawnPeon()
@@ -80,6 +83,11 @@ bool GameLoop(float deltaTime)
 		ImGui::DragFloat("Jitter##", &wanderJitter, 0.1f, 0.1f, 10.0f);
 		ImGui::DragFloat("Radius##", &wanderRadius, 0.1f, 0.1f, 100.0f);
 		ImGui::DragFloat("Distance##", &wanderDistance, 0.1f, 0.1f, 500.0f);
+	}
+	if (ImGui::CollapsingHeader("Visual##Sensor", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("View##Range", &viewRange, 1.0f, 100.0f, 1000.0f);
+		ImGui::DragFloat("View##Angle", &viewAngle, 1.0f, 10.0f, 180.0f);
 	}
 
 	ImGui::End();

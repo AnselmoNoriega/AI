@@ -1,6 +1,7 @@
 #pragma once
 
 #include <AI.h>
+class VisualSensor;
 
 class Peon : public AI::Agent
 {
@@ -23,5 +24,6 @@ private:
 	std::unique_ptr<AI::SteeringModule> mSteeringModule;
 	AI::SeekBehavior* mSeekBehaivior = nullptr;
 	AI::WanderBehavior* mWanderBehavior = nullptr;
+	VisualSensor* mVisualSensor = nullptr;
 	std::array<X::TextureId, 16> mTextureIDs;
 };
