@@ -24,6 +24,10 @@
 //Group
 #include "GroupBehavior.h"
 
+//Goals
+#include "Goal.h"
+#include "GoalComposite.h"
+
 //Perception
 #include "MemoryRecord.h"
 #include "Sensor.h"

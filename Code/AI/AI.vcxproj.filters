@@ -31,6 +31,12 @@
     <Filter Include="Src\Perception">
       <UniqueIdentifier>{029bd805-150b-44e0-8954-6c916a4804fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\Goals">
+      <UniqueIdentifier>{cd32372b-79fe-4c4e-8eb1-770d7f131069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Goals">
+      <UniqueIdentifier>{95d4cb06-88c5-466f-a7e4-1880d0fce159}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\AI.h">
@@ -102,6 +108,12 @@
     <ClInclude Include="Inc\PerceptionModule.h">
       <Filter>Inc\Perception</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Goal.h">
+      <Filter>Inc\Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\GoalComposite.h">
+      <Filter>Inc\Goals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -151,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="Src\PerceptionModule.cpp">
       <Filter>Src\Perception</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GoalComposite.cpp">
+      <Filter>Src\Goals</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
