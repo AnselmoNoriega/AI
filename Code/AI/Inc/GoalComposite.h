@@ -24,7 +24,7 @@ namespace AI
 		void AddSubGoal()
 		{
 			static_assert(std::is_base_of_v<Goal, GoalType>, "GoalComposite: Doesnt dirive from 'Goal'");
-			SubGoals.push_front(std::make_unique<GoalType>());
+			mSubgoals.push_front(std::make_unique<GoalType>());
 		}
 
 		void RemoveAllSubObjects()
@@ -33,7 +33,7 @@ namespace AI
 			{
 				goal->Terminate();
 			}
-			mSubGoals.clear();
+			mSubgoals.clear();
 		}
 
 		Status ProcessSubgoals()
@@ -52,7 +52,7 @@ namespace AI
 
 			if (!mSubgoals.empty())
 			{
-				Status status = mSubgoal.front()->Process();
+				Status status = mSubgoals.front()->Process();
 				if (status == Status::COMPLITED && mSubgoals.size() > 1)
 				{
 					return Status::ACTIVE;

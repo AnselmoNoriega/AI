@@ -20,7 +20,7 @@ namespace AI
 
 		}
 
-		~virtual Goal() = default;
+		virtual ~Goal() = default;
 		virtual void Activate() = 0;
 		virtual Status Process() = 0;
 		virtual void Terminate() = 0;
@@ -31,7 +31,7 @@ namespace AI
 		{
 			if (mStatus == Status::INACTIVE)
 			{
-				Avtivate();
+				Activate();
 			}
 		}
 
