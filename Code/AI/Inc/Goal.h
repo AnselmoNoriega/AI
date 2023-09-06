@@ -10,7 +10,7 @@ namespace AI
 		{
 			INACTIVE,
 			ACTIVE,
-			COMPLITED,
+			COMPLETED,
 			FAILED
 		};
 

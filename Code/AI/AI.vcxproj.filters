@@ -114,6 +114,12 @@
     <ClInclude Include="Inc\GoalComposite.h">
       <Filter>Inc\Goals</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Strategy.h">
+      <Filter>Inc\Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\DecisionModule.h">
+      <Filter>Inc\Goals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -163,9 +169,6 @@
     </ClCompile>
     <ClCompile Include="Src\PerceptionModule.cpp">
       <Filter>Src\Perception</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GoalComposite.cpp">
-      <Filter>Src\Goals</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
