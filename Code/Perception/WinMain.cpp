@@ -2,11 +2,13 @@
 #include <ImGui/Inc/imgui.h>
 #include <AI.h>
 #include "Peon.h"
+#include "Mineral.h"
 #include "TypeIDs.h"
 //--------------------------------------------------
 
 AI::AIWorld aiWorld;
 std::vector<std::unique_ptr<Peon>> peons;
+std::vector<std::unique_ptr<Mineral>> minerals;
 
 bool showDebug = true;
 float wanderJitter = 5.0f;
@@ -42,8 +44,24 @@ void KillPeon()
 void GameInit()
 {
 	aiWorld.Initialize();
-
 	SpawnPeon();
+
+	for (int i = 0; i < 10; ++i)
+	{
+		auto& mineral = minerals.emplace_back(std::make_unique<Mineral>(aiWorld));
+		mineral->Initialize();
+	}
+
+	aiWorld.AddObstacle({ 230.0f, 300.0f, 50.0f });
+
+	X::Math::Vector2 topLeft(500.0f, 100.0f);
+	X::Math::Vector2 topRight(600.0f, 100.0f);
+	X::Math::Vector2 bottomLeft(500.0f, 600.0f);
+	X::Math::Vector2 bottomRight(600.0f, 600.0f);
+	aiWorld.AddWall({ topLeft, topRight });
+	aiWorld.AddWall({ topRight, bottomRight });
+	aiWorld.AddWall({ bottomLeft, bottomRight });
+	aiWorld.AddWall({ bottomLeft, topLeft });
 }
 
 bool GameLoop(float deltaTime)
@@ -103,6 +121,22 @@ bool GameLoop(float deltaTime)
 	{
 		peon->Render();
 	}
+	for (auto& mineral : minerals)
+	{
+		mineral->Renderer();
+	}
+
+	auto& obstacles = aiWorld.GetObstacles();
+	for (auto& obstacle : obstacles)
+	{
+		X::DrawScreenCircle(obstacle.center, obstacle.radius, X::Colors::Gray);
+	}
+	auto& walls = aiWorld.GetWalls();
+	for (auto& wall : walls)
+	{
+		X::DrawScreenLine(wall.from, wall.to, X::Colors::Gray);
+	}
+
 	const bool quit = X::IsKeyPressed(X::Keys::ESCAPE);
 	return quit;
 }

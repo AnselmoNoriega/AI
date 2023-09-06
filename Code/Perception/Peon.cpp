@@ -2,6 +2,7 @@
 #include "TypeIDs.h"
 
 #include"VisualSensor.h"
+#include "TypeIDs.h"
 
 extern float wanderJitter;
 extern float wanderRadius;
@@ -14,7 +15,31 @@ namespace
 {
 	float ComputeImportance(const AI::Agent& agent, const AI::MemoryRecord& record)
 	{
-		return record.importance;
+		Types entityType = (Types)record.GetProperty<int>("type");
+
+		switch (entityType)
+		{
+		case Types::Invalid:
+			return 0;
+		case Types::PeonID:
+		{
+			float distance = X::Math::Distance(agent.position, record.GetProperty<X::Math::Vector2>("lastSeenPosition"));
+			float distanceScore = std::max(1000.0f - distance, 0.0f);
+			return distanceScore;
+		}
+		break;
+		case Types::MineralID:
+		{
+			float distance = X::Math::Distance(agent.position, record.GetProperty<X::Math::Vector2>("lastSeenPosition"));
+			float distanceScore = std::max(10000.0f - distance, 0.0f);
+			return distanceScore;
+		}
+		break;
+		default:
+			break;
+		}
+
+		return 0;
 	}
 }
 
@@ -26,7 +51,9 @@ Peon::Peon(AI::AIWorld& world)
 void Peon::Load()
 {
 	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
+	mPerceptionModule->SetMomorySpan(3.0f);
 	mVisualSensor = mPerceptionModule->AddSensore<VisualSensor>();
+	mVisualSensor->targetType = Types::MineralID;
 
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
 	mSeekBehaivior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
@@ -86,10 +113,20 @@ void Peon::Update(float dt)
 	if (position.y < 0.0f)
 	{
 		position.y += screenHeight;
-	}			 
+	}
 	if (position.y >= screenHeight)
-	{			 
+	{
 		position.y -= screenHeight;
+	}
+
+	const auto& memoryRecords = mPerceptionModule->GetMemoryRecords();
+	for (auto& memory : memoryRecords)
+	{
+		auto pos = memory.GetProperty<X::Math::Vector2>("lastSeenPosition");
+		X::DrawScreenLine(position, pos, X::Colors::Red);
+
+		std::string score = std::to_string(memory.importance);
+		X::DrawScreenText(score.c_str(), pos.x, pos.y, 12.0f, X::Colors::White);
 	}
 }
 

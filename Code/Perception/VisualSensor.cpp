@@ -12,6 +12,11 @@ void VisualSensor::Update(AI::Agent& agent, AI::MemoryRecords& memory, float dt)
 			continue;
 		}
 
+		if (targetType != Types::Invalid && targetType != entity->GetTypeID())
+		{
+			continue;
+		}
+
 		X::Math::Vector2 posToTarget = entity->position - agent.position;
 		if (X::Math::MagnitudeSqr(posToTarget) > viewRangeSqr)
 		{
@@ -24,6 +29,13 @@ void VisualSensor::Update(AI::Agent& agent, AI::MemoryRecords& memory, float dt)
 
 		if (angleToTarget > viewHalfAngle)
 		{
+			continue;
+		}
+
+		X::Math::LineSegment lineToTarget(agent.position, entity->position);
+		if (!agent.world.HasLineOfSight(lineToTarget))
+		{
+			X::DrawScreenLine(agent.position, entity->position, X::Colors::Yellow);
 			continue;
 		}
 
@@ -46,15 +58,17 @@ void VisualSensor::Update(AI::Agent& agent, AI::MemoryRecords& memory, float dt)
 			auto& newRecord = memory.emplace_back();
 			newRecord.uniqueID = entity->GetUniqueID();
 			newRecord.properties["lastSeenPosition"] = entity->position;
+			newRecord.properties["type"] = static_cast<int>(entity->GetTypeID());
 			newRecord.lastRecordedTime = X::GetTime();
 		}
-
-		auto fovStart = X::Math::Rotate(agent.heading * viewRange, -viewHalfAngle);
-		auto fovEnd = X::Math::Rotate(agent.heading * viewRange, viewHalfAngle);
-		X::DrawScreenLine(agent.position, agent.position + fovStart, X::Colors::Cyan);
-		X::DrawScreenLine(agent.position, agent.position + fovEnd, X::Colors::Cyan);
-
-		auto angle = atan2(agent.heading.y, agent.heading.x);
-		X::DrawScreenArc(agent.position, viewRange, angle - viewHalfAngle, angle + viewHalfAngle, X::Colors::LightCyan);
 	}
+
+
+	auto fovStart = X::Math::Rotate(agent.heading * viewRange, -viewHalfAngle);
+	auto fovEnd = X::Math::Rotate(agent.heading * viewRange, viewHalfAngle);
+	X::DrawScreenLine(agent.position, agent.position + fovStart, X::Colors::Cyan);
+	X::DrawScreenLine(agent.position, agent.position + fovEnd, X::Colors::Cyan);
+
+	auto angle = atan2(agent.heading.y, agent.heading.x);
+	X::DrawScreenArc(agent.position, viewRange, angle - viewHalfAngle, angle + viewHalfAngle, X::Colors::LightCyan);
 }

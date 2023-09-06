@@ -4,10 +4,12 @@
     <ClCompile Include="Peon.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="VisualSensor.cpp" />
+    <ClCompile Include="Mineral.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Peon.h" />
     <ClInclude Include="TypeIDs.h" />
     <ClInclude Include="VisualSensor.h" />
+    <ClInclude Include="Mineral.h" />
   </ItemGroup>
 </Project>
