@@ -13,5 +13,6 @@
     <ClInclude Include="VisualSensor.h" />
     <ClInclude Include="Mineral.h" />
     <ClInclude Include="GoalPersuitBehavior.h" />
+    <ClInclude Include="States.h" />
   </ItemGroup>
 </Project>

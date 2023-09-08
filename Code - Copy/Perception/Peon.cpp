@@ -4,9 +4,7 @@
 #include"VisualSensor.h"
 #include "TypeIDs.h"
 
-extern float wanderJitter;
-extern float wanderRadius;
-extern float wanderDistance;
+#include "States.h"
 
 extern float viewRange;
 extern float viewAngle;
@@ -50,6 +48,12 @@ Peon::Peon(AI::AIWorld& world)
 
 void Peon::Load()
 {
+	mStateMachine = new AI::StateMachine<Peon>(*this);
+	mStateMachine->AddState<Wander>(); 
+	mStateMachine->AddState<Pursuing>();
+	mStateMachine->AddState<Waiting>();
+	mStateMachine->ChangeState(0);
+
 	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
 	mPerceptionModule->SetMomorySpan(3.0f);
 	mVisualSensor = mPerceptionModule->AddSensore<VisualSensor>();
@@ -73,7 +77,7 @@ void Peon::Load()
 
 void Peon::Unload()
 {
-
+	Terminate();
 }
 
 void Peon::Update(float dt)
@@ -83,46 +87,8 @@ void Peon::Update(float dt)
 
 	mPerceptionModule->Update(dt);
 
-	if (mWanderBehavior->IsActive())
-	{
-		mWanderBehavior->Setup(wanderRadius, wanderDistance, wanderJitter);
-	}
-	else if (mGoalPersuitBehavior->IsActive())
-	{
-
-	}
-
-	const auto force = mSteeringModule->Calculate();
-	const auto acceleration = force / mass;
-	velocity += acceleration * dt;
-
-	if (X::Math::MagnitudeSqr(velocity) > 1.0f)
-	{
-		heading = X::Math::Normalize(velocity);
-	}
-
-	position += velocity * dt;
-
-	const auto screenWidth = X::GetScreenWidth();
-	const auto screenHeight = X::GetScreenHeight();
-
-	if (position.x < 0.0f)
-	{
-		position.x += screenWidth;
-	}
-	if (position.x >= screenWidth)
-	{
-		position.x -= screenWidth;
-	}
-	if (position.y < 0.0f)
-	{
-		position.y += screenHeight;
-	}
-	if (position.y >= screenHeight)
-	{
-		position.y -= screenHeight;
-	}
-
+	mStateMachine->Update(dt);
+	
 	const auto& memoryRecords = mPerceptionModule->GetMemoryRecords();
 	for (auto& memory : memoryRecords)
 	{
@@ -131,6 +97,7 @@ void Peon::Update(float dt)
 
 		if (mGoalPersuitBehavior->memoryImportance < memory.importance)
 		{
+			ChangeState(PURSIUNG);
 			SetWander(false);
 			SetGoal(true);
 			mGoalPersuitBehavior->memoryImportance = memory.importance;
@@ -154,4 +121,15 @@ void Peon::ShowDebug(bool debug)
 {
 	mGoalPersuitBehavior->ShowDebug(debug);
 	mWanderBehavior->ShowDebug(debug);
+}
+
+void Peon::ChangeState(PeonStates newState)
+{
+	mStateMachine->ChangeState((int)newState);
+}
+
+void Peon::Terminate()
+{
+	delete mStateMachine;
+	mStateMachine = nullptr;
 }

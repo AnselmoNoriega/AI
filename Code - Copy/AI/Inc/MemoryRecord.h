@@ -2,15 +2,15 @@
 
 namespace AI
 {
-	using Property = std::variant<int, float, X::Math::Vector2>;
-
+	using Property = std::variant<int, float, X::Math::Vector2, bool>;
+	
 	struct MemoryRecord
 	{
 		std::unordered_map<std::string, Property> properties;
 		uint64_t uniqueID = 0;
 		float lastRecordedTime = 0.0f;
 		float importance = 0.0f;
-
+		
 		template<class T>
 		T GetProperty(const std::string& key, T defaultValue = T()) const
 		{

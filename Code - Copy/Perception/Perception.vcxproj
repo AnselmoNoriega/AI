@@ -149,6 +149,7 @@
     <ClInclude Include="GoalPersuitBehavior.h" />
     <ClInclude Include="Mineral.h" />
     <ClInclude Include="Peon.h" />
+    <ClInclude Include="States.h" />
     <ClInclude Include="TypeIDs.h" />
     <ClInclude Include="VisualSensor.h" />
   </ItemGroup>
