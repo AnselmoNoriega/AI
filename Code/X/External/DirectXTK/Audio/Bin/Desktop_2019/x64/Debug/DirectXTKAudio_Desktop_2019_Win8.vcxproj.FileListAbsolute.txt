@@ -3,3 +3,4 @@ C:\Users\hansh\Downloads\20230725223251_Code\Code\X\External\DirectXTK\Audio\Bin
 C:\Users\lcv2212506.LCIEDUCATION.000\Documents\GitHub\AI\Code\X\External\DirectXTK\Audio\Bin\Desktop_2019\x64\Debug\DirectXTKAudioWin8.lib
 C:\GitHub\VGP114-GameProject\AI\Code\X\External\DirectXTK\Audio\Bin\Desktop_2019\x64\Debug\DirectXTKAudioWin8.lib
 C:\Github\AI\Code\X\External\DirectXTK\Audio\Bin\Desktop_2019\x64\Debug\DirectXTKAudioWin8.lib
+C:\Users\LCV2212506.LCIEDUCATION.001\Documents\GitHub\AI\Code\X\External\DirectXTK\Audio\Bin\Desktop_2019\x64\Debug\DirectXTKAudioWin8.lib
