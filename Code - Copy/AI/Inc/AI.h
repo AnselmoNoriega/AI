@@ -20,6 +20,7 @@
 #include "PursuitBehavior.h"
 #include "SeekBehavior.h"
 #include "WanderBehavior.h"
+#include "GoalPersuitBehavior.h"
 
 //Group
 #include "GroupBehavior.h"

@@ -4,7 +4,7 @@ void VisualSensor::Update(AI::Agent& agent, AI::MemoryRecords& memory, float dt)
 {
 	const auto& viewRangeSqr = viewRange * viewRange;
 	const auto& entities = agent.world.GetEntities();
-
+	
 	for (auto& entity : entities)
 	{
 		if (entity == &agent)
@@ -62,7 +62,6 @@ void VisualSensor::Update(AI::Agent& agent, AI::MemoryRecords& memory, float dt)
 			newRecord.lastRecordedTime = X::GetTime();
 		}
 	}
-
 
 	auto fovStart = X::Math::Rotate(agent.heading * viewRange, -viewHalfAngle);
 	auto fovEnd = X::Math::Rotate(agent.heading * viewRange, viewHalfAngle);

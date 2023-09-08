@@ -90,11 +90,7 @@ bool GameLoop(float deltaTime)
 
 	if (ImGui::Combo("ActiveBehavior##", &activeBehavior, behaviors, std::size(behaviors)))
 	{
-		for (auto& peon : peons)
-		{
-			peon->SetWander(activeBehavior == 0);
-			peon->SetSeek(activeBehavior == 1);
-		}
+
 	}
 	if (ImGui::CollapsingHeader("Wander##Settings", ImGuiTreeNodeFlags_DefaultOpen))
 	{

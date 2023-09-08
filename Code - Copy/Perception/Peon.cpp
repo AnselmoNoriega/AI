@@ -56,7 +56,7 @@ void Peon::Load()
 	mVisualSensor->targetType = Types::MineralID;
 
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
-	mSeekBehaivior = mSteeringModule->AddBehavior<AI::SeekBehavior>();
+	mGoalPersuitBehavior = mSteeringModule->AddBehavior<AI::GoalPersuitBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
 	mWanderBehavior->SetActive(true);
 
@@ -86,6 +86,10 @@ void Peon::Update(float dt)
 	if (mWanderBehavior->IsActive())
 	{
 		mWanderBehavior->Setup(wanderRadius, wanderDistance, wanderJitter);
+	}
+	else if (mGoalPersuitBehavior->IsActive())
+	{
+
 	}
 
 	const auto force = mSteeringModule->Calculate();
@@ -125,6 +129,14 @@ void Peon::Update(float dt)
 		auto pos = memory.GetProperty<X::Math::Vector2>("lastSeenPosition");
 		X::DrawScreenLine(position, pos, X::Colors::Red);
 
+		if (mGoalPersuitBehavior->memoryImportance < memory.importance)
+		{
+			SetWander(false);
+			SetGoal(true);
+			mGoalPersuitBehavior->memoryImportance = memory.importance;
+			destination = pos;
+		}
+
 		std::string score = std::to_string(memory.importance);
 		X::DrawScreenText(score.c_str(), pos.x, pos.y, 12.0f, X::Colors::White);
 	}
@@ -140,6 +152,6 @@ void Peon::Render()
 
 void Peon::ShowDebug(bool debug)
 {
-	mSeekBehaivior->ShowDebug(debug);
+	mGoalPersuitBehavior->ShowDebug(debug);
 	mWanderBehavior->ShowDebug(debug);
 }

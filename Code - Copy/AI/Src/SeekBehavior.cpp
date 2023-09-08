@@ -8,7 +8,7 @@ X::Math::Vector2 SeekBehavior::Calculate(Agent& agent)
 {
 	const auto agentToDest = agent.destination - agent.position;
 	const float distToDest = X::Math::Magnitude(agentToDest);
-
+	
 	if (distToDest <= 0.1f)
 	{
 		return X::Math::Vector2::Zero();
