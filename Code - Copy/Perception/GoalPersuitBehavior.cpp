@@ -28,3 +28,17 @@ X::Math::Vector2 GoalPersuitBehavior::Calculate(Agent& agent)
 
 	return arriveForce;
 }
+
+bool AI::GoalPersuitBehavior::CheckMemoryRecord(const Property& memory)
+{
+	for (auto& property : properties)
+	{
+		if (property == memory)
+		{
+			return true;
+		}
+	}
+
+	properties.push_back(memory);
+	return false;
+}
