@@ -31,14 +31,15 @@ X::Math::Vector2 GoalPersuitBehavior::Calculate(Agent& agent)
 
 bool AI::GoalPersuitBehavior::CheckMemoryRecord(const Property& memory)
 {
+	X::Math::Vector2 pos = std::get<X::Math::Vector2>(memory);
+
 	for (auto& property : properties)
 	{
-		if (property == memory)
+		if (property.x - 10 <= pos.x && property.x + 10 >= pos.x && property.y - 10 <= pos.y && property.y + 10 >= pos.y)
 		{
-			return true;
+			return false;
 		}
 	}
 
-	properties.push_back(memory);
-	return false;
+	return true;
 }

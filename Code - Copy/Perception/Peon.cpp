@@ -53,9 +53,10 @@ void Peon::Load()
 	mStateMachine->AddState<Pursuing>();
 	mStateMachine->AddState<Waiting>();
 	mStateMachine->ChangeState(0);
+	state = WANDER;
 
 	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
-	mPerceptionModule->SetMomorySpan(100.0f);
+	mPerceptionModule->SetMomorySpan(3.0f);
 	mVisualSensor = mPerceptionModule->AddSensore<VisualSensor>();
 	mVisualSensor->targetType = Types::MineralID;
 
@@ -95,7 +96,6 @@ void Peon::Update(float dt)
 		auto pos = memory.GetProperty<X::Math::Vector2>("lastSeenPosition");
 		X::DrawScreenLine(position, pos, X::Colors::Red);
 
-		auto vedsf = memory.properties.at("lastSeenPosition");
 		if (mGoalPersuitBehavior->memoryImportance < memory.importance && mGoalPersuitBehavior->CheckMemoryRecord(memory.properties.at("lastSeenPosition")))
 		{
 			ChangeState(PURSIUNG);
@@ -127,6 +127,7 @@ void Peon::ShowDebug(bool debug)
 void Peon::ChangeState(PeonStates newState)
 {
 	mStateMachine->ChangeState((int)newState);
+	state = newState;
 }
 
 void Peon::Terminate()

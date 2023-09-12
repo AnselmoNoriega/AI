@@ -139,7 +139,12 @@ public:
 
 		if (timer <= 0.0f)
 		{
+			agent.target = nullptr;
 			agent.ChangeState(WANDER);
+			agent.SetWander(true);
+			agent.SetGoal(false);
+			agent.mGoalPersuitBehavior->memoryImportance = 0.0f;
+			agent.mGoalPersuitBehavior->properties.push_back(agent.position);
 		}
 	}
 

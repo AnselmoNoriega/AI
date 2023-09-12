@@ -85,9 +85,13 @@ bool GameLoop(float deltaTime)
 
 	static const char* behaviors[] = {
 		"Wander",
-		"Seek"
+		"PURSIUNG",
+		"WAITING"
 	};
-
+	if (peons.size() > 0)
+	{
+		activeBehavior = static_cast<int>(peons.back().get()->state);
+	}
 	if (ImGui::Combo("ActiveBehavior##", &activeBehavior, behaviors, std::size(behaviors)))
 	{
 

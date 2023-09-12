@@ -32,6 +32,7 @@ public:
 	AI::WanderBehavior* mWanderBehavior = nullptr;
 
 	void ChangeState(PeonStates newState);
+	PeonStates state;
 private:
 
 	std::unique_ptr<AI::PerceptionModule> mPerceptionModule;
