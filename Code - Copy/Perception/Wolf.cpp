@@ -88,7 +88,7 @@ void Wolf::Update(float dt)
 	mPerceptionModule->Update(dt);
 
 	mStateMachine->Update(dt);
-	
+
 	const auto& memoryRecords = mPerceptionModule->GetMemoryRecords();
 	for (auto& memory : memoryRecords)
 	{
@@ -97,9 +97,9 @@ void Wolf::Update(float dt)
 
 		for (auto& entity : world.GetEntities())
 		{
-			if (X::Math::Magnitude(pos - entity->position) < 5 && X::Math::Magnitude(pos - entity->position) > 5 && target == nullptr)
+			if (X::Math::Magnitude(pos - entity->position) < 1 && X::Math::Magnitude(pos - entity->position) > -1 && target == nullptr)
 			{
-				//target = entity;
+				target = entity;
 				ChangeState(CHASING);
 				SetWander(false);
 				mWanderBehavior->SetActive(false);

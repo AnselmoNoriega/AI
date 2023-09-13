@@ -176,7 +176,38 @@ public:
 
 	void Update(Wolf& agent, float dt) override
 	{
-		if (X::Math::Magnitude(agent.position - agent.destination) < 10 && X::Math::Magnitude(agent.position - agent.destination) > -10)
+		const auto force = agent.mSteeringModule->Calculate();
+		const auto acceleration = force / agent.mass;
+		agent.velocity += acceleration * dt;
+
+		if (X::Math::MagnitudeSqr(agent.velocity) > 1.0f)
+		{
+			agent.heading = X::Math::Normalize(agent.velocity);
+		}
+
+		agent.position += agent.velocity * dt;
+
+		const auto screenWidth = X::GetScreenWidth();
+		const auto screenHeight = X::GetScreenHeight();
+
+		if (agent.position.x < 0.0f)
+		{
+			agent.position.x += screenWidth;
+		}
+		if (agent.position.x >= screenWidth)
+		{
+			agent.position.x -= screenWidth;
+		}
+		if (agent.position.y < 0.0f)
+		{
+			agent.position.y += screenHeight;
+		}
+		if (agent.position.y >= screenHeight)
+		{
+			agent.position.y -= screenHeight;
+		}
+		auto t = X::Math::Magnitude(agent.position - agent.target->position);
+		if (X::Math::Magnitude(agent.position - agent.target->position) < 10 && X::Math::Magnitude(agent.position - agent.target->position) > -10)
 		{
 			agent.target = nullptr;
 			agent.ChangeState(LOOKING);

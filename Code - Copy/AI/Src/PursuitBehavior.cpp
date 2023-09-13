@@ -6,7 +6,7 @@ using namespace AI;
 
 X::Math::Vector2 PursuitBehavior::Calculate(Agent& agent)
 {
-	const auto agentToDest = (agent.target->position + agent.target->velocity) - agent.position;
+	const auto agentToDest = agent.target->position - agent.position;
 	const float distToDest = X::Math::Magnitude(agentToDest);
 
 	if (distToDest <= 0.1f)
@@ -15,7 +15,7 @@ X::Math::Vector2 PursuitBehavior::Calculate(Agent& agent)
 	}
 
 	const auto desiredVelocity = (agentToDest / distToDest) * agent.maxSpeed;
-	const auto pursuitForce = desiredVelocity - agent.velocity;
+	const auto pursiutForce = desiredVelocity - agent.velocity;
 
 	if (IsDebug())
 	{
@@ -24,7 +24,7 @@ X::Math::Vector2 PursuitBehavior::Calculate(Agent& agent)
 		X::DrawScreenCircle(agent.target->position, 20.0f, X::Colors::Red);
 	}
 
-	return pursuitForce;
+	return pursiutForce;
 }
 
 X::Math::Vector2 EvadeBehavior::Calculate(Agent& agent)

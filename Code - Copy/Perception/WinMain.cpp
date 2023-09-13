@@ -21,6 +21,7 @@ float viewRange = 300.0f;
 float viewAngle = 45.0f;
 
 int activeBehavior = 0;
+int activeBehaviorWolf = 0;
 
 void SpawnPeon()
 {
@@ -129,6 +130,14 @@ bool GameLoop(float deltaTime)
 		activeBehavior = static_cast<int>(peons.back().get()->state);
 	}
 	if (ImGui::Combo("ActiveBehavior##", &activeBehavior, behaviors, std::size(behaviors)))
+	{
+
+	}
+	if (wolfs.size() > 0)
+	{
+		activeBehaviorWolf = static_cast<int>(wolfs.back().get()->state);
+	}
+	if (ImGui::Combo("ActiveBehavior Wolf##", &activeBehaviorWolf, behaviors, std::size(behaviors)))
 	{
 
 	}
