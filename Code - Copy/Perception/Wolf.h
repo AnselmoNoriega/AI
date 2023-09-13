@@ -39,5 +39,6 @@ private:
 	VisualSensor* mVisualSensor = nullptr;
 	std::array<X::TextureId, 16> mTextureIDs;
 
+	AI::StateMachine<Wolf>* mStateMachine;
 	void Terminate();
 };

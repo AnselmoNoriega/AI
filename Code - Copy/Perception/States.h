@@ -7,15 +7,16 @@ extern float wanderJitter;
 extern float wanderRadius;
 extern float wanderDistance;
 
-class Wander : public AI::State<Peon>
+template <class Agent>
+class Wander : public AI::State<Agent>
 {
 public:
-	void Enter(Peon& agent) override
+	void Enter(Agent& agent) override
 	{
 
 	}
 
-	void Update(Peon& agent, float dt) override
+	void Update(Agent& agent, float dt) override
 	{
 		if (agent.mWanderBehavior->IsActive())
 		{
@@ -54,7 +55,7 @@ public:
 		}
 	}
 
-	void Exit(Peon& agent) override
+	void Exit(Agent& agent) override
 	{
 
 	}
@@ -162,6 +163,8 @@ public:
 
 	}
 };
+
+//----------------------------------------------------wolfStates----------------------------------------------------------------
 
 class Chasing : public AI::State<Wolf>
 {

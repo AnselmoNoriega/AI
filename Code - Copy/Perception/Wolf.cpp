@@ -48,6 +48,10 @@ Wolf::Wolf(AI::AIWorld& world)
 
 void Wolf::Load()
 {
+	mStateMachine = new AI::StateMachine<Wolf>(*this);
+	mStateMachine->AddState<Wander<Wolf>>(); 
+	mStateMachine->AddState<Chasing>();
+	mStateMachine->ChangeState(0);
 	state = LOOKING;
 
 	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
@@ -82,6 +86,8 @@ void Wolf::Update(float dt)
 	mVisualSensor->viewHalfAngle = viewAngle * X::Math::kDegToRad;
 
 	mPerceptionModule->Update(dt);
+
+	mStateMachine->Update(dt);
 	
 	const auto& memoryRecords = mPerceptionModule->GetMemoryRecords();
 	for (auto& memory : memoryRecords)
@@ -122,9 +128,12 @@ void Wolf::ShowDebug(bool debug)
 
 void Wolf::ChangeState(WolfStates newState)
 {
+	mStateMachine->ChangeState((int)newState);
 	state = newState;
 }
 
 void Wolf::Terminate()
 {
+	delete mStateMachine;
+	mStateMachine = nullptr;
 }

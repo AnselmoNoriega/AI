@@ -2,12 +2,14 @@
 #include <ImGui/Inc/imgui.h>
 #include <AI.h>
 #include "Peon.h"
+#include "Wolf.h"
 #include "Mineral.h"
 #include "TypeIDs.h"
 //--------------------------------------------------
 
 AI::AIWorld aiWorld;
 std::vector<std::unique_ptr<Peon>> peons;
+std::vector<std::unique_ptr<Wolf>> wolfs;
 std::vector<std::unique_ptr<Mineral>> minerals;
 
 bool showDebug = true;
@@ -31,6 +33,17 @@ void SpawnPeon()
 	peon->position = X::RandomVector2({ 100.0f, 100.0f }, { screenWidth - 100.0f, screenheight - 100.0f });
 }
 
+void SpawnWolf()
+{
+	auto& wolf = wolfs.emplace_back(std::make_unique<Wolf>(aiWorld));
+	wolf->Load();
+	wolf->ShowDebug(showDebug);
+
+	const float screenWidth = X::GetScreenWidth();
+	const float screenheight = X::GetScreenHeight();
+	wolf->position = X::RandomVector2({ 100.0f, 100.0f }, { screenWidth - 100.0f, screenheight - 100.0f });
+}
+
 void KillPeon()
 {
 	if (peons.size() > 0)
@@ -41,10 +54,21 @@ void KillPeon()
 	}
 }
 
+void KillWolf()
+{
+	if (wolfs.size() > 0)
+	{
+		auto& wolf = wolfs.back();
+		wolf->Unload();
+		wolfs.pop_back();
+	}
+}
+
 void GameInit()
 {
 	aiWorld.Initialize();
 	SpawnPeon();
+	SpawnWolf();
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -67,19 +91,31 @@ void GameInit()
 bool GameLoop(float deltaTime)
 {
 	ImGui::Begin("Steering Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-	if (ImGui::Button("Spawn"))
+	if (ImGui::Button("Spawn Peon"))
 	{
 		SpawnPeon();
 	}
-	if (ImGui::Button("Kill"))
+	if (ImGui::Button("Kill Peon"))
 	{
 		KillPeon();
+	}
+	if (ImGui::Button("Spawn Wolf"))
+	{
+		SpawnWolf();
+	}
+	if (ImGui::Button("Kill Wolf"))
+	{
+		KillWolf();
 	}
 	if (ImGui::Checkbox("ShowDebug", &showDebug))
 	{
 		for (auto& peon : peons)
 		{
 			peon->ShowDebug(showDebug);
+		}
+		for (auto& wolf : wolfs)
+		{
+			wolf->ShowDebug(showDebug);
 		}
 	}
 
@@ -121,6 +157,17 @@ bool GameLoop(float deltaTime)
 	{
 		peon->Render();
 	}
+
+	for (auto& wolf : wolfs)
+	{
+		wolf->Update(deltaTime);
+	}
+
+	for (auto& wolf : wolfs)
+	{
+		wolf->Render();
+	}
+
 	for (auto& mineral : minerals)
 	{
 		mineral->Renderer();
@@ -146,6 +193,11 @@ void GameCleanup()
 	for (auto& peon : peons)
 	{
 		peon->Unload();
+	}
+
+	for (auto& wolf : wolfs)
+	{
+		wolf->Unload();
 	}
 }
 

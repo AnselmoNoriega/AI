@@ -49,7 +49,7 @@ Peon::Peon(AI::AIWorld& world)
 void Peon::Load()
 {
 	mStateMachine = new AI::StateMachine<Peon>(*this);
-	mStateMachine->AddState<Wander>(); 
+	mStateMachine->AddState<Wander<Peon>>();
 	mStateMachine->AddState<Pursuing>();
 	mStateMachine->AddState<Waiting>();
 	mStateMachine->ChangeState(0);
