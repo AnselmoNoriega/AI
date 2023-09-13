@@ -206,8 +206,8 @@ public:
 		{
 			agent.position.y -= screenHeight;
 		}
-		auto t = X::Math::Magnitude(agent.position - agent.target->position);
-		if (X::Math::Magnitude(agent.position - agent.target->position) < 10 && X::Math::Magnitude(agent.position - agent.target->position) > -10)
+		auto distance = X::Math::Magnitude(agent.position - agent.target->position);
+		if ((distance < 10 && distance > -10) || (distance > 500 || distance < -500))
 		{
 			agent.target = nullptr;
 			agent.ChangeState(LOOKING);
