@@ -106,7 +106,7 @@ public:
 			agent.position.y -= screenHeight;
 		}
 
-		if (X::Math::Magnitude(agent.position - agent.destination)  < 5 && X::Math::Magnitude(agent.position - agent.destination) > 5)
+		if (X::Math::Magnitude(agent.position - agent.destination)  < 5 && X::Math::Magnitude(agent.position - agent.destination) > -5)
 		{
 			agent.ChangeState(WAITING);
 		}
@@ -173,7 +173,7 @@ public:
 
 	void Update(Wolf& agent, float dt) override
 	{
-		if (X::Math::Magnitude(agent.position - agent.destination) < 10)
+		if (X::Math::Magnitude(agent.position - agent.destination) < 10 && X::Math::Magnitude(agent.position - agent.destination) > -10)
 		{
 			agent.target = nullptr;
 			agent.ChangeState(LOOKING);

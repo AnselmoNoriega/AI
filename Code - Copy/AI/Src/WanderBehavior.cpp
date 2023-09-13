@@ -19,7 +19,7 @@ X::Math::Vector2 WanderBehavior::Calculate(Agent& agent)
 
 	X::Math::Vector2 newWanderTarget;
 
-	if (hasObstacle)
+	/*if (hasObstacle)
 	{
 
 		hasObstacle = false;
@@ -27,8 +27,9 @@ X::Math::Vector2 WanderBehavior::Calculate(Agent& agent)
 	else
 	{
 		newWanderTarget = mLocalWanderTarget + (X::RandomUnitCircle() * mWanderJitter);
-	}
+	}*/
 
+	newWanderTarget = mLocalWanderTarget + (X::RandomUnitCircle() * mWanderJitter);
 	newWanderTarget = X::Math::Normalize(newWanderTarget) * mWanderRadius;
 	mLocalWanderTarget = newWanderTarget;
 

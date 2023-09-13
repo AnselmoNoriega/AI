@@ -98,12 +98,12 @@ void Peon::Update(float dt)
 
 		if (mGoalPersuitBehavior->memoryImportance < memory.importance && mGoalPersuitBehavior->CheckMemoryRecord(memory.properties.at("lastSeenPosition")))
 		{
-			/*ChangeState(PURSIUNG);
+			ChangeState(PURSIUNG);
 			SetWander(false);
 			SetGoal(true);
 			mGoalPersuitBehavior->memoryImportance = memory.importance;
 			mWanderBehavior->SetActive(false);
-			destination = pos;*/
+			destination = pos;
 		}
 
 		std::string score = std::to_string(memory.importance);
