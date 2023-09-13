@@ -17,6 +17,6 @@ namespace AI
 		float mWanderJitter = 0.1f;
 
 		X::Math::Vector2 fov[3];
-		bool hasObstacle = false;
+		bool hasFreeSight = true;
 	};
 }
