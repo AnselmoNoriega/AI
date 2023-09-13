@@ -1,12 +1,33 @@
 #include "Precompiled.h"
 #include "WanderBehavior.h"
+#include "AIWorld.h"
 #include "Agent.h"
 
 using namespace AI;
 
 X::Math::Vector2 WanderBehavior::Calculate(Agent& agent)
 {
-	auto newWanderTarget = mLocalWanderTarget + (X::RandomUnitCircle() * mWanderJitter);
+	fov[0] = X::Math::Rotate(agent.heading * 60, 0);
+	fov[1] = X::Math::Rotate(agent.heading * 60, -0.8f);
+	fov[2] = X::Math::Rotate(agent.heading * 60, 0.8f);
+
+	for (int i = 0; i < 3; ++i)
+	{
+		X::Math::LineSegment lineToTarget(agent.position, fov[i]); 
+		hasObstacle |= agent.world.HasLineOfSight(lineToTarget);
+	}
+
+	X::Math::Vector2 newWanderTarget;
+
+	if (hasObstacle)
+	{
+
+		hasObstacle = false;
+	}
+	else
+	{
+		newWanderTarget = mLocalWanderTarget + (X::RandomUnitCircle() * mWanderJitter);
+	}
 
 	newWanderTarget = X::Math::Normalize(newWanderTarget) * mWanderRadius;
 	mLocalWanderTarget = newWanderTarget;
@@ -32,6 +53,10 @@ X::Math::Vector2 WanderBehavior::Calculate(Agent& agent)
 		X::DrawScreenCircle(wanderCenter, mWanderRadius, X::Colors::Yellow);
 		X::DrawScreenDiamond(worldWanderTarget, 3.0f, X::Colors::Red);
 		X::DrawScreenLine(agent.position, worldWanderTarget, X::Colors::Green);
+
+		X::DrawScreenLine(agent.position, agent.position + fov[0], X::Colors::DarkViolet);
+		X::DrawScreenLine(agent.position, agent.position + fov[1], X::Colors::DarkViolet);
+		X::DrawScreenLine(agent.position, agent.position + fov[2], X::Colors::DarkViolet);
 	}
 
 	return seekForce;

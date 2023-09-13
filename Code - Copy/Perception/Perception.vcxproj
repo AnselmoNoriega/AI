@@ -144,6 +144,7 @@
     <ClCompile Include="Peon.cpp" />
     <ClCompile Include="VisualSensor.cpp" />
     <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GoalPersuitBehavior.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="States.h" />
     <ClInclude Include="TypeIDs.h" />
     <ClInclude Include="VisualSensor.h" />
+    <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

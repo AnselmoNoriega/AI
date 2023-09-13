@@ -1,4 +1,4 @@
-#include "Peon.h"
+#include "Wolf.h"
 #include "TypeIDs.h"
 
 #include"VisualSensor.h"
@@ -19,14 +19,14 @@ namespace
 		{
 		case Types::Invalid:
 			return 0;
-		case Types::PeonID:
+		case Types::WolfID:
 		{
 			float distance = X::Math::Distance(agent.position, record.GetProperty<X::Math::Vector2>("lastSeenPosition"));
 			float distanceScore = std::max(1000.0f - distance, 0.0f);
 			return distanceScore;
 		}
 		break;
-		case Types::MineralID:
+		case Types::PeonID:
 		{
 			float distance = X::Math::Distance(agent.position, record.GetProperty<X::Math::Vector2>("lastSeenPosition"));
 			float distanceScore = std::max(10000.0f - distance, 0.0f);
@@ -41,34 +41,33 @@ namespace
 	}
 }
 
-Peon::Peon(AI::AIWorld& world)
-	: Agent(world, Types::PeonID)
+Wolf::Wolf(AI::AIWorld& world)
+	: Agent(world, Types::WolfID)
 {
 }
 
-void Peon::Load()
+void Wolf::Load()
 {
-	mStateMachine = new AI::StateMachine<Peon>(*this);
+	mStateMachine = new AI::StateMachine<Wolf>(*this);
 	mStateMachine->AddState<Wander>(); 
-	mStateMachine->AddState<Pursuing>();
-	mStateMachine->AddState<Waiting>();
+	mStateMachine->AddState<Chasing>();
 	mStateMachine->ChangeState(0);
-	state = WANDER;
+	state = LOOKING;
 
 	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
 	mPerceptionModule->SetMomorySpan(3.0f);
 	mVisualSensor = mPerceptionModule->AddSensore<VisualSensor>();
-	mVisualSensor->targetType = Types::MineralID;
+	mVisualSensor->targetType = Types::PeonID;
 
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
-	mGoalPersuitBehavior = mSteeringModule->AddBehavior<AI::GoalPersuitBehavior>();
+	mPursuitBehavior = mSteeringModule->AddBehavior<AI::PursuitBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
 	mWanderBehavior->SetActive(true);
 
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
 		char name[128];
-		sprintf_s(name, "scv_%02i.png", i + 1);
+		sprintf_s(name, "carrier_%02i.png", i + 1);
 		mTextureIDs[i] = X::LoadTexture(name);
 	}
 
@@ -76,12 +75,12 @@ void Peon::Load()
 	radius = spriteWidth;
 }
 
-void Peon::Unload()
+void Wolf::Unload()
 {
 	Terminate();
 }
 
-void Peon::Update(float dt)
+void Wolf::Update(float dt)
 {
 	mVisualSensor->viewRange = viewRange;
 	mVisualSensor->viewHalfAngle = viewAngle * X::Math::kDegToRad;
@@ -96,14 +95,16 @@ void Peon::Update(float dt)
 		auto pos = memory.GetProperty<X::Math::Vector2>("lastSeenPosition");
 		X::DrawScreenLine(position, pos, X::Colors::Red);
 
-		if (mGoalPersuitBehavior->memoryImportance < memory.importance && mGoalPersuitBehavior->CheckMemoryRecord(memory.properties.at("lastSeenPosition")))
+		for (auto& entity : world.GetEntities())
 		{
-			/*ChangeState(PURSIUNG);
-			SetWander(false);
-			SetGoal(true);
-			mGoalPersuitBehavior->memoryImportance = memory.importance;
-			mWanderBehavior->SetActive(false);
-			destination = pos;*/
+			if (X::Math::Magnitude(pos - entity->position) < 5 && X::Math::Magnitude(pos - entity->position) > 5 && target == nullptr)
+			{
+				//target = entity;
+				ChangeState(CHASING);
+				SetWander(false);
+				mWanderBehavior->SetActive(false);
+				mPursuitBehavior->SetActive(true);
+			}
 		}
 
 		std::string score = std::to_string(memory.importance);
@@ -111,7 +112,7 @@ void Peon::Update(float dt)
 	}
 }
 
-void Peon::Render()
+void Wolf::Render()
 {
 	const float angle = atan2(-heading.x, heading.y) + X::Math::kPi;
 	const float percent = angle / X::Math::kTwoPi;
@@ -119,19 +120,19 @@ void Peon::Render()
 	X::DrawSprite(mTextureIDs[frame], position);
 }
 
-void Peon::ShowDebug(bool debug)
+void Wolf::ShowDebug(bool debug)
 {
-	mGoalPersuitBehavior->ShowDebug(debug);
+	mPursuitBehavior->ShowDebug(debug);
 	mWanderBehavior->ShowDebug(debug);
 }
 
-void Peon::ChangeState(PeonStates newState)
+void Wolf::ChangeState(WolfStates newState)
 {
 	mStateMachine->ChangeState((int)newState);
 	state = newState;
 }
 
-void Peon::Terminate()
+void Wolf::Terminate()
 {
 	delete mStateMachine;
 	mStateMachine = nullptr;

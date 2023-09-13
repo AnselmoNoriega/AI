@@ -6,6 +6,7 @@
     <ClCompile Include="VisualSensor.cpp" />
     <ClCompile Include="Mineral.cpp" />
     <ClCompile Include="GoalPersuitBehavior.cpp" />
+    <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Peon.h" />
@@ -14,5 +15,6 @@
     <ClInclude Include="Mineral.h" />
     <ClInclude Include="GoalPersuitBehavior.h" />
     <ClInclude Include="States.h" />
+    <ClInclude Include="Wolf.h" />
   </ItemGroup>
 </Project>

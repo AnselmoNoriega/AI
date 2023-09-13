@@ -15,5 +15,8 @@ namespace AI
 		float mWanderRadius = 1.0f;
 		float mWanderDistance = 0.0f;
 		float mWanderJitter = 0.1f;
+
+		X::Math::Vector2 fov[3];
+		bool hasObstacle = false;
 	};
 }

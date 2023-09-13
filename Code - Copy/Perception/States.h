@@ -1,6 +1,7 @@
 #pragma once
 #include "AI.h"
 #include "Peon.h"
+#include "Wolf.h"
 
 extern float wanderJitter;
 extern float wanderRadius;
@@ -105,7 +106,7 @@ public:
 			agent.position.y -= screenHeight;
 		}
 
-		if (X::Math::Magnitude(agent.position - agent.destination)  < 5)
+		if (X::Math::Magnitude(agent.position - agent.destination)  < 5 && X::Math::Magnitude(agent.position - agent.destination) > 5)
 		{
 			agent.ChangeState(WAITING);
 		}
@@ -143,8 +144,8 @@ public:
 			agent.ChangeState(WANDER);
 			agent.SetWander(true);
 			agent.SetGoal(false);
+			agent.mWanderBehavior->SetActive(true);
 			agent.mGoalPersuitBehavior->memoryImportance = 0.0f;
-			agent.mGoalPersuitBehavior->properties.push_back(agent.position);
 		}
 	}
 
@@ -152,8 +153,39 @@ public:
 	{
 		if (timer <= 0.0f)
 		{
-
+			agent.mGoalPersuitBehavior->properties.push_back(agent.position);
 		}
+	}
+
+	void Debug() override
+	{
+
+	}
+};
+
+class Chasing : public AI::State<Wolf>
+{
+public:
+	void Enter(Wolf& agent) override
+	{
+
+	}
+
+	void Update(Wolf& agent, float dt) override
+	{
+		if (X::Math::Magnitude(agent.position - agent.destination) < 10)
+		{
+			agent.target = nullptr;
+			agent.ChangeState(LOOKING);
+			agent.SetWander(true);
+			agent.mWanderBehavior->SetActive(true);
+			agent.mPursuitBehavior->SetActive(false);
+		}
+	}
+
+	void Exit(Wolf& agent) override
+	{
+
 	}
 
 	void Debug() override
