@@ -148,6 +148,7 @@
     <ClInclude Include="Inc\Entity.h" />
     <ClInclude Include="Inc\Goal.h" />
     <ClInclude Include="Inc\GoalComposite.h" />
+    <ClInclude Include="Inc\GoalPersuitBehavior.h" />
     <ClInclude Include="Inc\GridBasedGraph.h" />
     <ClInclude Include="Inc\GroupBehavior.h" />
     <ClInclude Include="Inc\MemoryRecord.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Src\DFS.cpp" />
     <ClCompile Include="Src\Dijkstra.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
+    <ClCompile Include="Src\GoalPersuitBehavior.cpp" />
     <ClCompile Include="Src\GridBasedGraph.cpp" />
     <ClCompile Include="Src\GroupBehavior.cpp" />
     <ClCompile Include="Src\PerceptionModule.cpp" />

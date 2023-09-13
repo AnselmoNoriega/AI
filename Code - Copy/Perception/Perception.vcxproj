@@ -139,7 +139,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GoalPersuitBehavior.cpp" />
     <ClCompile Include="Mineral.cpp" />
     <ClCompile Include="Peon.cpp" />
     <ClCompile Include="VisualSensor.cpp" />
@@ -147,7 +146,6 @@
     <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GoalPersuitBehavior.h" />
     <ClInclude Include="Mineral.h" />
     <ClInclude Include="Peon.h" />
     <ClInclude Include="States.h" />
