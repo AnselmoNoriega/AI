@@ -8,6 +8,7 @@
 
 extern float viewRange;
 extern float viewAngle;
+extern std::vector<std::shared_ptr<Peon>> peons;
 
 namespace
 {
@@ -95,11 +96,11 @@ void Wolf::Update(float dt)
 		auto pos = memory.GetProperty<X::Math::Vector2>("lastSeenPosition");
 		X::DrawScreenLine(position, pos, X::Colors::Red);
 
-		for (auto& entity : world.GetEntities())
+		for (auto& entity : peons)
 		{
 			if (X::Math::Magnitude(pos - entity->position) < 1 && X::Math::Magnitude(pos - entity->position) > -1 && target == nullptr)
 			{
-				target = entity;
+				target = entity.get();
 				ChangeState(CHASING);
 				SetWander(false);
 				mWanderBehavior->SetActive(false);

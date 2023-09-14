@@ -8,7 +8,7 @@
 //--------------------------------------------------
 
 AI::AIWorld aiWorld;
-std::vector<std::unique_ptr<Peon>> peons;
+std::vector<std::shared_ptr<Peon>> peons;
 std::vector<std::unique_ptr<Wolf>> wolfs;
 std::vector<std::unique_ptr<Mineral>> minerals;
 
@@ -45,13 +45,13 @@ void SpawnWolf()
 	wolf->position = X::RandomVector2({ 100.0f, 100.0f }, { screenWidth - 100.0f, screenheight - 100.0f });
 }
 
-void KillPeon()
+void KillPeonAt(int num)
 {
 	if (peons.size() > 0)
 	{
-		auto& peon = peons.back();
+		auto& peon = peons.at(num);
 		peon->Unload();
-		peons.pop_back();
+		peons.erase(peons.begin() + num);
 	}
 }
 
@@ -98,7 +98,7 @@ bool GameLoop(float deltaTime)
 	}
 	if (ImGui::Button("Kill Peon"))
 	{
-		KillPeon();
+		KillPeonAt(peons.size() - 1);
 	}
 	if (ImGui::Button("Spawn Wolf"))
 	{
@@ -202,6 +202,7 @@ void GameCleanup()
 	for (auto& peon : peons)
 	{
 		peon->Unload();
+		peon.reset();
 	}
 
 	for (auto& wolf : wolfs)
