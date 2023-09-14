@@ -33,6 +33,16 @@ namespace
 			return distanceScore;
 		}
 		break;
+		case Types::WolfID:
+		{
+			float distance = X::Math::Distance(agent.position, record.GetProperty<X::Math::Vector2>("lastSeenPosition"));
+			float distanceScore = std::max(200.0f - distance, 0.0f);
+			if (distanceScore <= 0.0f)
+			{
+
+			}
+			return distanceScore;
+		}
 		default:
 			break;
 		}
