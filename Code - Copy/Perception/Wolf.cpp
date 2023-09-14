@@ -127,6 +127,21 @@ void Wolf::ShowDebug(bool debug)
 	mWanderBehavior->ShowDebug(debug);
 }
 
+void Wolf::KillPeon(const Agent* peon)
+{
+	int i = 0;
+	for (auto& lookPeon : peons)
+	{
+		if (lookPeon.get() == peon)
+		{
+			peons.at(i)->Unload();
+			peons.erase(peons.begin() + i);
+			return;
+		}
+		++i;
+	}
+}
+
 void Wolf::ChangeState(WolfStates newState)
 {
 	mStateMachine->ChangeState((int)newState);

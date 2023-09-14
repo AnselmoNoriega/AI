@@ -27,7 +27,7 @@ public:
 	void SetPursuit(bool active) { mPursuitBehavior->SetActive(active); }
 	void SetWander(bool active) { mWanderBehavior->SetActive(active); }
 
-	void KillPeon(std::unique_ptr<Peon> peon);
+	void KillPeon(const Agent* peon);
 
 	std::unique_ptr<AI::SteeringModule> mSteeringModule;
 	AI::PursuitBehavior* mPursuitBehavior = nullptr;
