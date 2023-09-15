@@ -32,6 +32,7 @@ public:
 	std::unique_ptr<AI::SteeringModule> mSteeringModule;
 	AI::PursuitBehavior* mPursuitBehavior = nullptr;
 	AI::WanderBehavior* mWanderBehavior = nullptr;
+	AI::EvadeBehavior* mEvadeBehavior = nullptr;
 
 	void ChangeState(WolfStates newState);
 	WolfStates state;

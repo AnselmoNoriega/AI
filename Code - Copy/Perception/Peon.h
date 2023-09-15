@@ -30,6 +30,7 @@ public:
 	std::unique_ptr<AI::SteeringModule> mSteeringModule;
 	AI::GoalPersuitBehavior* mGoalPersuitBehavior = nullptr;
 	AI::WanderBehavior* mWanderBehavior = nullptr;
+	AI::EvadeBehavior* mEvadeBehavior = nullptr;
 
 	void ChangeState(PeonStates newState);
 	PeonStates state;

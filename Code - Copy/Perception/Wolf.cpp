@@ -63,7 +63,9 @@ void Wolf::Load()
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
 	mPursuitBehavior = mSteeringModule->AddBehavior<AI::PursuitBehavior>();
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
+	mEvadeBehavior = mSteeringModule->AddBehavior<AI::EvadeBehavior>();
 	mWanderBehavior->SetActive(true);
+	mEvadeBehavior->SetActive(true);
 
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
@@ -125,6 +127,7 @@ void Wolf::ShowDebug(bool debug)
 {
 	mPursuitBehavior->ShowDebug(debug);
 	mWanderBehavior->ShowDebug(debug);
+	mEvadeBehavior->ShowDebug(debug);
 }
 
 void Wolf::KillPeon(const Agent* peon)

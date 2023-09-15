@@ -15,6 +15,7 @@ namespace AI
 	public:
 		X::Math::Vector2 Calculate(Agent& agent) override;
 
-		float panicDisctance = 100.0f;
+		X::Math::Vector2 fov[3];
+		bool hasFreeSight = true;
 	};
 }
