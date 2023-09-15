@@ -21,6 +21,7 @@ public:
 		{
 			agent.mEvadeBehavior->SetActive(true);
 			agent.mWanderBehavior->SetActive(false);
+			agent.mWanderBehavior->mLocalWanderTarget = X::Math::Vector2::Zero();
 		}
 		else
 		{
@@ -111,6 +112,7 @@ public:
 		{
 			agent.mEvadeBehavior->SetActive(true);
 			agent.mGoalPersuitBehavior->SetActive(false);
+			agent.mWanderBehavior->mLocalWanderTarget = X::Math::Vector2::Zero();
 		}
 		else
 		{
@@ -243,6 +245,7 @@ public:
 		{
 			agent.mEvadeBehavior->SetActive(true);
 			agent.mWanderBehavior->SetActive(false);
+			agent.mWanderBehavior->mLocalWanderTarget = X::Math::Vector2::Zero();
 		}
 		else
 		{
@@ -333,6 +336,7 @@ public:
 		{
 			agent.mEvadeBehavior->SetActive(true);
 			agent.mPursuitBehavior->SetActive(false);
+			agent.mWanderBehavior->mLocalWanderTarget = X::Math::Vector2::Zero();
 		}
 		else
 		{
