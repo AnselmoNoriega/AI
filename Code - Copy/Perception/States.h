@@ -7,17 +7,27 @@ extern float wanderJitter;
 extern float wanderRadius;
 extern float wanderDistance;
 
-template <class Agent>
-class Wander : public AI::State<Agent>
+class Wander : public AI::State<Peon>
 {
 public:
-	void Enter(Agent& agent) override
+	void Enter(Peon& agent) override
 	{
 
 	}
 
-	void Update(Agent& agent, float dt) override
+	void Update(Peon& agent, float dt) override
 	{
+		if (!CollisionCheck(agent))
+		{
+			agent.mEvadeBehavior->SetActive(true);
+			agent.mWanderBehavior->SetActive(false);
+		}
+		else
+		{
+			agent.mEvadeBehavior->SetActive(false);
+			agent.mWanderBehavior->SetActive(true);
+		}
+
 		if (agent.mWanderBehavior->IsActive())
 		{
 			agent.mWanderBehavior->Setup(wanderRadius, wanderDistance, wanderJitter);
@@ -55,7 +65,7 @@ public:
 		}
 	}
 
-	void Exit(Agent& agent) override
+	void Exit(Peon& agent) override
 	{
 
 	}
@@ -63,6 +73,27 @@ public:
 	void Debug() override
 	{
 
+	}
+
+	bool CollisionCheck(Peon& agent)
+	{
+		X::Math::Vector2 fov[3];
+
+		fov[0] = X::Math::Rotate(agent.heading * 60, 0);
+		fov[1] = X::Math::Rotate(agent.heading * 60, -0.8f);
+		fov[2] = X::Math::Rotate(agent.heading * 60, 0.8f);
+
+		int i;
+		bool hasFreeSight;
+
+		for (i = 0; i < 3; ++i)
+		{
+			X::Math::LineSegment lineToTarget(agent.position, agent.position + fov[i]);
+			hasFreeSight = agent.world.HasLineOfSight(lineToTarget);
+			if (!hasFreeSight) break;
+		}
+
+		return hasFreeSight;
 	}
 };
 
@@ -76,6 +107,17 @@ public:
 
 	void Update(Peon& agent, float dt) override
 	{
+		if (!CollisionCheck(agent))
+		{
+			agent.mEvadeBehavior->SetActive(true);
+			agent.mGoalPersuitBehavior->SetActive(false);
+		}
+		else
+		{
+			agent.mEvadeBehavior->SetActive(false);
+			agent.mGoalPersuitBehavior->SetActive(true);
+		}
+
 		const auto force = agent.mSteeringModule->Calculate();
 		const auto acceleration = force / agent.mass;
 		agent.velocity += acceleration * dt;
@@ -122,6 +164,27 @@ public:
 	{
 
 	}
+
+	bool CollisionCheck(Peon& agent)
+	{
+		X::Math::Vector2 fov[3];
+
+		fov[0] = X::Math::Rotate(agent.heading * 60, 0);
+		fov[1] = X::Math::Rotate(agent.heading * 60, -0.8f);
+		fov[2] = X::Math::Rotate(agent.heading * 60, 0.8f);
+
+		int i;
+		bool hasFreeSight;
+
+		for (i = 0; i < 3; ++i)
+		{
+			X::Math::LineSegment lineToTarget(agent.position, agent.position + fov[i]);
+			hasFreeSight = agent.world.HasLineOfSight(lineToTarget);
+			if (!hasFreeSight) break;
+		}
+
+		return hasFreeSight;
+	}
 };
 
 class Waiting : public AI::State<Peon>
@@ -166,6 +229,96 @@ public:
 
 //----------------------------------------------------wolfStates----------------------------------------------------------------
 
+class Looking : public AI::State<Wolf>
+{
+public:
+	void Enter(Wolf& agent) override
+	{
+
+	}
+
+	void Update(Wolf& agent, float dt) override
+	{
+		if (!CollisionCheck(agent))
+		{
+			agent.mEvadeBehavior->SetActive(true);
+			agent.mWanderBehavior->SetActive(false);
+		}
+		else
+		{
+			agent.mEvadeBehavior->SetActive(false);
+			agent.mWanderBehavior->SetActive(true);
+		}
+
+		if (agent.mWanderBehavior->IsActive())
+		{
+			agent.mWanderBehavior->Setup(wanderRadius, wanderDistance, wanderJitter);
+		}
+
+		const auto force = agent.mSteeringModule->Calculate();
+		const auto acceleration = force / agent.mass;
+		agent.velocity += acceleration * dt;
+
+		if (X::Math::MagnitudeSqr(agent.velocity) > 1.0f)
+		{
+			agent.heading = X::Math::Normalize(agent.velocity);
+		}
+
+		agent.position += agent.velocity * dt;
+
+		const auto screenWidth = X::GetScreenWidth();
+		const auto screenHeight = X::GetScreenHeight();
+
+		if (agent.position.x < 0.0f)
+		{
+			agent.position.x += screenWidth;
+		}
+		if (agent.position.x >= screenWidth)
+		{
+			agent.position.x -= screenWidth;
+		}
+		if (agent.position.y < 0.0f)
+		{
+			agent.position.y += screenHeight;
+		}
+		if (agent.position.y >= screenHeight)
+		{
+			agent.position.y -= screenHeight;
+		}
+	}
+
+	void Exit(Wolf& agent) override
+	{
+
+	}
+
+	void Debug() override
+	{
+
+	}
+
+	bool CollisionCheck(Wolf& agent)
+	{
+		X::Math::Vector2 fov[3];
+
+		fov[0] = X::Math::Rotate(agent.heading * 60, 0);
+		fov[1] = X::Math::Rotate(agent.heading * 60, -0.8f);
+		fov[2] = X::Math::Rotate(agent.heading * 60, 0.8f);
+
+		int i;
+		bool hasFreeSight;
+
+		for (i = 0; i < 3; ++i)
+		{
+			X::Math::LineSegment lineToTarget(agent.position, agent.position + fov[i]);
+			hasFreeSight = agent.world.HasLineOfSight(lineToTarget);
+			if (!hasFreeSight) break;
+		}
+
+		return hasFreeSight;
+	}
+};
+
 class Chasing : public AI::State<Wolf>
 {
 public:
@@ -176,6 +329,17 @@ public:
 
 	void Update(Wolf& agent, float dt) override
 	{
+		if (!CollisionCheck(agent))
+		{
+			agent.mEvadeBehavior->SetActive(true);
+			agent.mPursuitBehavior->SetActive(false);
+		}
+		else
+		{
+			agent.mEvadeBehavior->SetActive(false);
+			agent.mPursuitBehavior->SetActive(true);
+		}
+
 		const auto force = agent.mSteeringModule->Calculate();
 		const auto acceleration = force / agent.mass;
 		agent.velocity += acceleration * dt;
@@ -226,5 +390,26 @@ public:
 	void Debug() override
 	{
 
+	}
+
+	bool CollisionCheck(Wolf& agent)
+	{
+		X::Math::Vector2 fov[3];
+
+		fov[0] = X::Math::Rotate(agent.heading * 60, 0);
+		fov[1] = X::Math::Rotate(agent.heading * 60, -0.8f);
+		fov[2] = X::Math::Rotate(agent.heading * 60, 0.8f);
+
+		int i;
+		bool hasFreeSight;
+
+		for (i = 0; i < 3; ++i)
+		{
+			X::Math::LineSegment lineToTarget(agent.position, agent.position + fov[i]);
+			hasFreeSight = agent.world.HasLineOfSight(lineToTarget);
+			if (!hasFreeSight) break;
+		}
+
+		return hasFreeSight;
 	}
 };

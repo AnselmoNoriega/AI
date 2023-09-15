@@ -50,7 +50,6 @@ X::Math::Vector2 EvadeBehavior::Calculate(Agent& agent)
 		const auto agentToDest = fov[i];
 		const float distToDest = X::Math::Magnitude(agentToDest);
 		desiredVelocity = -(agentToDest / distToDest) * agent.maxSpeed;
-
 	}
 	
 	if (IsDebug())

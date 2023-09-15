@@ -50,7 +50,7 @@ Wolf::Wolf(AI::AIWorld& world)
 void Wolf::Load()
 {
 	mStateMachine = new AI::StateMachine<Wolf>(*this);
-	mStateMachine->AddState<Wander<Wolf>>(); 
+	mStateMachine->AddState<Looking>(); 
 	mStateMachine->AddState<Chasing>();
 	mStateMachine->ChangeState(0);
 	state = LOOKING;
@@ -65,7 +65,6 @@ void Wolf::Load()
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
 	mEvadeBehavior = mSteeringModule->AddBehavior<AI::EvadeBehavior>();
 	mWanderBehavior->SetActive(true);
-	mEvadeBehavior->SetActive(true);
 
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{

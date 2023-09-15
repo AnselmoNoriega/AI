@@ -59,7 +59,7 @@ Peon::Peon(AI::AIWorld& world)
 void Peon::Load()
 {
 	mStateMachine = new AI::StateMachine<Peon>(*this);
-	mStateMachine->AddState<Wander<Peon>>();
+	mStateMachine->AddState<Wander>();
 	mStateMachine->AddState<Pursuing>();
 	mStateMachine->AddState<Waiting>();
 	mStateMachine->ChangeState(0);
@@ -75,7 +75,6 @@ void Peon::Load()
 	mWanderBehavior = mSteeringModule->AddBehavior<AI::WanderBehavior>();
 	mEvadeBehavior = mSteeringModule->AddBehavior<AI::EvadeBehavior>();
 	mWanderBehavior->SetActive(true);
-	mEvadeBehavior->SetActive(true);
 
 	for (int i = 0; i < mTextureIDs.size(); ++i)
 	{
